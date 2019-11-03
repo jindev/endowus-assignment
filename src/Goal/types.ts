@@ -1,16 +1,17 @@
-import { Plan } from '../Plan/types';
+import { IPlan } from 'Plan/types';
 
-export type Goal = {
+export interface IGoal {
   goalId: string;
   customerId: string;
   createdAt: string;
   name: string;
   targetStockRatio: string;
   status: GoalStatus;
-  plans?: Plan[];
-};
+  plans?: IPlan[];
+  [k: string]: any;
+}
 
-enum GoalStatus {
+export enum GoalStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
 }

@@ -1,19 +1,22 @@
 import { CCY } from 'App/types';
 
-export type Plan = {
+export interface IRecurringInvestmentSchedule {
+  interval: InvestmentInterval;
+  startingFrom: string;
+  amount: number;
+}
+
+export interface IPlan {
   customerId: string;
   goalId: string;
   planId: string;
   createdAt: string;
   planCcy: CCY;
   initialInvestmentAmount: number;
-  recurringInvestmentSchedule?: {
-    interval: InvestmentInterval;
-    startingFrom: string;
-    amount: number;
-  };
+  recurringInvestmentSchedule?: IRecurringInvestmentSchedule;
   modelPortfolioName: string;
-};
+  [key: string]: any;
+}
 
 export enum InvestmentInterval {
   WEEKLY = 'WEEKLY',

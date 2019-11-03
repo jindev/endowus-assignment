@@ -3,13 +3,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import DevTools from './DevTools';
-
 const Root = ({ store, routes }: any) => (
   <Provider store={store}>
     <div>
       <Router>{routes}</Router>
-      <DevTools />
+      {/* <DevTools /> */}
     </div>
   </Provider>
 );
