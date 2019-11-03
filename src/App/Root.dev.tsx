@@ -1,20 +1,20 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import DevTools from './DevTools';
 
-const Root = ({ store, routes }: any) => (
+interface IProps {
+  store: any;
+  routes: any;
+}
+
+const Root: React.FC<IProps> = ({ store, routes }) => (
   <Provider store={store}>
     <div>
       <Router>{routes}</Router>
-      {/* <DevTools /> */}
+      <DevTools />
     </div>
   </Provider>
 );
-
-Root.propTypes = {
-  store: PropTypes.shape({}).isRequired,
-  routes: PropTypes.shape({}).isRequired,
-};
 
 export default Root;

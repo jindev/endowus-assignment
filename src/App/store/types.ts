@@ -1,6 +1,6 @@
 import { Store } from 'redux';
 
-export interface CStore extends Store {
+export interface ICStore extends Store {
   runSaga?: any;
-  close?: any;
+  close?: () => void;
 }

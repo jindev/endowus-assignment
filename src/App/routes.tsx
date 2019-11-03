@@ -3,12 +3,9 @@ import CustomerListPageContainer from 'Customer/containers/CustomerListPageConta
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import App from './App';
-
 export default (
   <Route>
-    <Route path="/" component={App} exact />
-    <Route path="/customers" component={CustomerListPageContainer} exact />
+    <Route path="/" component={CustomerListPageContainer} exact />
     <Route
       path="/customers/:id"
       component={CustomerDetailPageContainer}

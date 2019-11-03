@@ -2,11 +2,11 @@ import rootReducer from 'App/rootReducer';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware, { END } from 'redux-saga';
 
-import { CStore } from './types';
+import { ICStore } from './types';
 
 export default function configureStore(initialState: any) {
   const sagaMiddleware = createSagaMiddleware();
-  const store: CStore = createStore(
+  const store: ICStore = createStore(
     rootReducer,
     initialState,
     applyMiddleware(sagaMiddleware),
