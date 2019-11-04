@@ -15,7 +15,7 @@ const Table = ({ columns, data }: any) => {
     <MaterialTable
       columns={columns}
       data={data}
-      title={'customers'}
+      title={''}
       options={{
         actionsColumnIndex: -1,
         search: false,

@@ -1,3 +1,4 @@
+import PageHeader from '@atlaskit/page-header';
 import { Container, Grid } from '@material-ui/core';
 import React from 'react';
 
@@ -16,7 +17,8 @@ const CustomerListPageTemplate: React.FC<IProps> = ({
   return (
     <>
       <Container>
-        <Grid>
+        <PageHeader>Customers</PageHeader>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <CustomerListSearchBar onClickSearch={onClickSearch} />
           </Grid>

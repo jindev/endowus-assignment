@@ -1,40 +1,14 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
-  TextField,
-  CardHeader,
-  Grid,
-} from '@material-ui/core';
+import { Card, CardContent } from '@material-ui/core';
 import { useStyles } from 'Customer/styles';
 import { CustomerStatus } from 'Customer/types';
+import { Stack } from 'office-ui-fabric-react';
+import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
+import { Label } from 'office-ui-fabric-react/lib/Label';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import React, { useCallback, useState } from 'react';
 
 interface IStatus {
   name: string;
-}
-
-interface ITextFieldItem {
-  label: string;
-  className: string;
-  data: any;
-}
-
-function useInputValue(initialValue: any) {
-  const [value, setValue] = useState(initialValue);
-  const onChange = useCallback((event) => {
-    setValue(event.currentTarget.value);
-  }, []);
-
-  return {
-    value,
-    onChange,
-  };
 }
 
 const renderStatusCheckboxes = (
@@ -45,31 +19,7 @@ const renderStatusCheckboxes = (
     <>
       {statusList.map((s, i) => {
         return (
-          <FormControlLabel
-            control={<Checkbox name={s.name} onChange={onChange} />}
-            label={s.name}
-            key={i}
-          />
-        );
-      })}
-    </>
-  );
-};
-
-const renderTextInputs = (items: ITextFieldItem[]) => {
-  return (
-    <>
-      {items.map((i) => {
-        return (
-          <TextField
-            label={i.label}
-            type="search"
-            className={i.className}
-            margin="normal"
-            variant="outlined"
-            {...i.data}
-            key={i.label}
-          />
+          <Checkbox label={s.name} onChange={onChange} name={s.name} key={i} />
         );
       })}
     </>
@@ -77,39 +27,52 @@ const renderTextInputs = (items: ITextFieldItem[]) => {
 };
 
 const CustomerListSearchBar = ({ onClickSearch }: any) => {
-  const name = useInputValue('');
-  const email = useInputValue('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
   const [checkedStatus, setCheckedStatus] = useState(new Map());
 
   const classes = useStyles();
 
-  const textFields = [
-    { label: 'email', className: classes.textField, data: email },
-    { label: 'name', className: classes.textField, data: name },
-  ];
-
   const handleOnClickSearch = useCallback(
-    (e) => {
-      e.preventDefault();
+    (newData?: any) => {
       onClickSearch({
-        name: name.value,
-        email: email.value,
+        name,
+        email,
         status: [...checkedStatus]
           .filter(([_, v]) => !!v)
           .map(([k]) => {
             return k;
           }),
+        ...newData,
       });
     },
-    [name, email, checkedStatus, onClickSearch],
+    [onClickSearch, checkedStatus, name, email],
+  );
+
+  const handleOnChangeEmail = useCallback(
+    (e) => {
+      setEmail(e.target.value);
+      handleOnClickSearch({ email: e.target.value });
+    },
+    [setEmail, handleOnClickSearch],
+  );
+
+  const handleOnChangeName = useCallback(
+    (e) => {
+      setName(e.target.value);
+      handleOnClickSearch({ name: e.target.value });
+    },
+    [setName, handleOnClickSearch],
   );
 
   const handleChangeCheckbox = useCallback(
     (e) => {
       checkedStatus.set(e.target.name, e.target.checked);
       setCheckedStatus(checkedStatus);
+      handleOnClickSearch();
     },
-    [checkedStatus, setCheckedStatus],
+    [checkedStatus, setCheckedStatus, handleOnClickSearch],
   );
 
   const statusList = Object.values(CustomerStatus).map((s) => ({
@@ -119,35 +82,25 @@ const CustomerListSearchBar = ({ onClickSearch }: any) => {
   return (
     <>
       <Card className={classes.searchbar}>
-        <CardHeader title={'search bar'}></CardHeader>
         <CardContent>
-          <form>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">status</FormLabel>
-              <FormGroup>
-                {renderStatusCheckboxes(statusList, handleChangeCheckbox)}
-              </FormGroup>
-            </FormControl>
-
-            <FormControl component="fieldset">
-              <FormGroup>{renderTextInputs(textFields)}</FormGroup>
-            </FormControl>
-
-            <FormControl className={classes.searchbarSubmitBtn}>
-              <Grid item xs={4}>
-                <FormGroup>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    onClick={handleOnClickSearch}
-                  >
-                    search
-                  </Button>
-                </FormGroup>
-              </Grid>
-            </FormControl>
-          </form>
+          <Label>status</Label>
+          <Stack horizontal tokens={{ childrenGap: 10, padding: 15 }}>
+            {renderStatusCheckboxes(statusList, handleChangeCheckbox)}
+          </Stack>
+          <Stack horizontal tokens={{ childrenGap: 10 }}>
+            <TextField
+              label="email"
+              value={email}
+              onChange={handleOnChangeEmail}
+              key="email"
+            />
+            <TextField
+              label="name"
+              value={name}
+              onChange={handleOnChangeName}
+              key="name"
+            />
+          </Stack>
         </CardContent>
       </Card>
     </>

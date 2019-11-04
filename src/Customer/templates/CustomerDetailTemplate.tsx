@@ -1,6 +1,9 @@
-import { Typography, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useStyles } from 'Customer/styles';
 import { ICustomer, IPersonalDetails } from 'Customer/types';
+import { Stack } from 'office-ui-fabric-react';
+import { Label } from 'office-ui-fabric-react/lib/Label';
+import { Text } from 'office-ui-fabric-react/lib/Text';
 import React from 'react';
 
 interface ICustomerDetailTemplateProps {
@@ -10,32 +13,36 @@ interface ICustomerDetailTemplateProps {
 const PersonalDetailsTemplate: React.FC<{
   personalDetails: IPersonalDetails;
 }> = ({ personalDetails }) => {
-  const classes = useStyles();
   return (
     <>
-      {Object.keys(personalDetails).map((k: string) => {
+      {Object.keys(personalDetails).map((k: string, i: number) => {
         return (
-          <Typography component="p" key={k}>
-            <span className={classes.span}>{k}: </span> {personalDetails[k]}
-          </Typography>
+          <Stack horizontal tokens={{ childrenGap: 25, padding: 10 }} key={i}>
+            <Label>{k}</Label>
+            <Text block variant="large">
+              {personalDetails[k]}
+            </Text>
+          </Stack>
         );
       })}
     </>
   );
 };
 
-const renderCustomerInfo = (customer: ICustomer, className: string) => {
+const renderCustomerInfo = (customer: ICustomer) => {
   return (
     <>
-      {Object.keys(customer).map((k: string) => {
+      {Object.keys(customer).map((k: string, i: number) => {
         if (typeof customer[k] === 'object') {
           return null;
         }
-
         return (
-          <Typography component="p" key={k}>
-            <span className={className}>{k}: </span> {customer[k]}
-          </Typography>
+          <Stack horizontal tokens={{ childrenGap: 25, padding: 10 }} key={i}>
+            <Label>{k} </Label>
+            <Text block variant="large">
+              {customer[k]}
+            </Text>
+          </Stack>
         );
       })}
     </>
@@ -49,9 +56,9 @@ const CustomerDetailTemplate: React.FC<ICustomerDetailTemplateProps> = ({
 
   return (
     <>
-      <Grid container>
+      <Grid container className={classes.detailGridContianer}>
         <Grid item xs={6}>
-          {renderCustomerInfo(customer, classes.span)}
+          {renderCustomerInfo(customer)}
         </Grid>
         <Grid item xs={6}>
           {customer.personalDetails ? (
