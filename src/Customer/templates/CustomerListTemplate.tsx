@@ -19,6 +19,9 @@ const Table = ({ columns, data }: any) => {
       options={{
         actionsColumnIndex: -1,
         search: false,
+        headerStyle: {
+          backgroundColor: 'lightgrey',
+        },
       }}
       actions={[
         {
