@@ -43,7 +43,11 @@ const CustomerDetailPageTemplate: React.FC<IProps> = ({ customer, goals }) => {
             <Grid item xs={12}>
               {renderGoals(goals)}
             </Grid>
-          ) : null}
+          ) : (
+            <Grid item xs={12} style={{ textAlign: 'center' }}>
+              <PageHeader>No Goals</PageHeader>
+            </Grid>
+          )}
         </Grid>
       </Container>
     </>
