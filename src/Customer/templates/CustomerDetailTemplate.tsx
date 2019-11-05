@@ -13,12 +13,13 @@ interface ICustomerDetailTemplateProps {
 const PersonalDetailsTemplate: React.FC<{
   personalDetails: IPersonalDetails;
 }> = ({ personalDetails }) => {
+  const classes = useStyles();
   return (
     <>
       {Object.keys(personalDetails).map((k: string, i: number) => {
         return (
           <Stack horizontal tokens={{ childrenGap: 25, padding: 10 }} key={i}>
-            <Label>{k}</Label>
+            <Label className={classes.stackLabel}>{k}</Label>
             <Text block variant="large">
               {personalDetails[k]}
             </Text>
@@ -29,7 +30,7 @@ const PersonalDetailsTemplate: React.FC<{
   );
 };
 
-const renderCustomerInfo = (customer: ICustomer) => {
+const renderCustomerInfo = (customer: ICustomer, classes: any) => {
   return (
     <>
       {Object.keys(customer).map((k: string, i: number) => {
@@ -38,7 +39,7 @@ const renderCustomerInfo = (customer: ICustomer) => {
         }
         return (
           <Stack horizontal tokens={{ childrenGap: 25, padding: 10 }} key={i}>
-            <Label>{k} </Label>
+            <Label className={classes.stackLabel}>{k} </Label>
             <Text block variant="large">
               {customer[k]}
             </Text>
@@ -58,7 +59,7 @@ const CustomerDetailTemplate: React.FC<ICustomerDetailTemplateProps> = ({
     <>
       <Grid container className={classes.detailGridContianer}>
         <Grid item xs={6}>
-          {renderCustomerInfo(customer)}
+          {renderCustomerInfo(customer, classes)}
         </Grid>
         <Grid item xs={6}>
           {customer.personalDetails ? (

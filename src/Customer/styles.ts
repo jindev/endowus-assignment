@@ -35,4 +35,7 @@ export const useStyles = makeStyles((theme) => ({
   searchbarSubmitBtn: {
     display: 'block',
   },
+  stackLabel: {
+    width: '100px',
+  },
 }));
